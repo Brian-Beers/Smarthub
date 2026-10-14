@@ -1,0 +1,106 @@
+# SmartHub Python Dependencies
+
+# Install with: python3 -m pip install -r requirements.txt
+
+Flask
+wakeonlan
+
+# -----------------------------------------
+
+# Raspberry Pi: Run SmartHub Permanently
+
+# -----------------------------------------
+
+# 1. Copy the project to your Raspberry Pi.
+
+#
+
+# 2. Install Python and create a virtual environment:
+
+# sudo apt update
+
+# sudo apt install python3 python3-venv
+
+# cd ~/smarthub
+
+# python3 -m venv .venv
+
+# source .venv/bin/activate
+
+# pip install -r requirements.txt
+
+#
+
+# 3. Test the server manually:
+
+# python smartHubServer.py
+
+#
+
+# 4. Create a systemd service:
+
+# sudo nano /etc/systemd/system/smarthub.service
+
+#
+
+# Add the following, replacing YOUR_PI_USERNAME
+
+# with your Raspberry Pi username:
+
+#
+
+# [Unit]
+
+# Description=SmartHub Server
+
+# After=network.target
+
+#
+
+# [Service]
+
+# User=YOUR_PI_USERNAME
+
+# WorkingDirectory=/home/YOUR_PI_USERNAME/smarthub
+
+# ExecStart=/home/YOUR_PI_USERNAME/smarthub/.venv/bin/python /home/YOUR_PI_USERNAME/smarthub/smartHubServer.py
+
+# Restart=always
+
+# RestartSec=5
+
+#
+
+# [Install]
+
+# WantedBy=multi-user.target
+
+#
+
+# 5. Enable and start the service:
+
+# sudo systemctl daemon-reload
+
+# sudo systemctl enable --now smarthub
+
+#
+
+# 6. Check status and logs:
+
+# sudo systemctl status smarthub
+
+# sudo journalctl -u smarthub -f
+
+#
+
+# SmartHub will now start automatically when the Pi boots
+
+# and restart if the server process exits.
+
+#
+
+# Security: Keep the Flask API on a trusted network or
+
+# use a private VPN such as Tailscale for remote access.
+
+# Do not expose the Flask port directly to the internet.
